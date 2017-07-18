@@ -102,6 +102,8 @@ function getCurrentTemperature(address) {
 
 getCurrentTemperature("400+king+street,+Toronto+Canada"); //basically the same line 90 but more compact form
 
+var globalDist;
+
 function getDistanceFromIss(address) {
    return Promise.all([ //NOTE: we need to return a promise to allow for promise chaining, this is no different than return request-promise
       getIssPosition(),
@@ -116,6 +118,9 @@ function getDistanceFromIss(address) {
       // console.log("the distance is " + distance);
       return distance;
    })
+   .then(function(returnValue){
+      globalDist = returnValue;
+   })
    .catch(function(err){
       console.log("error in ISS calculation " + err);
    });
@@ -123,3 +128,6 @@ function getDistanceFromIss(address) {
 
 getDistanceFromIss("4+place+ville+marie,+Montreal+Canada")
 .then( function(response) {console.log("the distance from ISS is "+ response);} );
+
+
+console.log("global " + globalDist);
